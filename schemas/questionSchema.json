@@ -1,0 +1,119 @@
+{
+  "type": "object",
+  "title": "QuestionSchema",
+  "properties": {
+    "question_id": {
+      "type": "string",
+      "description": "Identificador único da questão."
+    },
+    "question_text": {
+      "type": "string",
+      "description": "Texto da questão."
+    },
+    "answer_options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "option_id": {
+            "type": "string",
+            "description": "Identificador único da opção."
+          },
+          "text": {
+            "type": "string",
+            "description": "Texto da opção de resposta."
+          },
+          "is_correct": {
+            "type": "boolean",
+            "description": "Se esta opção é a resposta correta."
+          }
+        },
+        "required": ["option_id", "text", "is_correct"]
+      },
+      "description": "Lista de opções de resposta para a questão."
+    },
+    "bloom_classification": {
+      "type": "string",
+      "enum": ["Remember", "Understand", "Apply", "Analyze", "Evaluate", "Create"],
+      "description": "Classificação da questão na hierarquia de Bloom."
+    },
+    "difficulty_level": {
+      "type": "string",
+      "enum": ["Easy", "Medium", "Hard"],
+      "description": "Nível de dificuldade da questão."
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags ou tópicos associados à questão."
+    },
+    "timestamps": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp de criação da questão."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Última atualização da questão."
+        }
+      },
+      "required": ["created_at"]
+    },
+    "student_interaction": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "student_id": {
+            "type": "string",
+            "description": "Identificador único do aluno."
+          },
+          "response_time_seconds": {
+            "type": "integer",
+            "description": "Tempo (em segundos) que o aluno levou para responder."
+          },
+          "student_answer": {
+            "type": "string",
+            "description": "Resposta fornecida pelo aluno."
+          },
+          "is_correct": {
+            "type": "boolean",
+            "description": "Se a resposta do aluno está correta."
+          },
+          "difficulty_feedback": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Feedback do aluno sobre o nível de dificuldade (1 = muito fácil, 5 = muito difícil)."
+          },
+          "interaction_timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Momento em que a interação ocorreu."
+          }
+        },
+        "required": [
+          "student_id",
+          "response_time_seconds",
+          "student_answer",
+          "is_correct",
+          "interaction_timestamp"
+        ]
+      },
+      "description": "Histórico de interações dos alunos com esta questão."
+    }
+  },
+  "required": [
+    "question_id",
+    "question_text",
+    "answer_options",
+    "bloom_classification",
+    "timestamps"
+  ]
+}

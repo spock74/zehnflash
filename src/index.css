@@ -19,6 +19,44 @@
   }
 }
 
+/* Tema Escuro */
 .dark {
   color-scheme: dark;
+}
+
+/* Tema Claro */
+.light {
+  color-scheme: light;
+}
+
+.light .bg-[#121212] {
+  @apply bg-white;
+}
+
+.light .bg-[#282828] {
+  @apply bg-gray-50;
+}
+
+.light .bg-[#383838] {
+  @apply bg-gray-100;
+}
+
+.light .text-white {
+  @apply text-gray-900;
+}
+
+.light .text-gray-400 {
+  @apply text-gray-600;
+}
+
+.light .border-[#484848] {
+  @apply border-gray-200;
+}
+
+.light .hover\:bg-[#282828]:hover {
+  @apply hover:bg-gray-100;
+}
+
+.light .hover\:bg-[#383838]:hover {
+  @apply hover:bg-gray-200;
 }

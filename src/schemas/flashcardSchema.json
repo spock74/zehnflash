@@ -1,0 +1,68 @@
+{
+  "type": "object",
+  "title": "FlashcardBatchImportSchema",
+  "properties": {
+    "deck": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Nome do baralho"
+        },
+        "category": {
+          "type": "string",
+          "description": "Categoria/tópico do baralho"
+        }
+      },
+      "required": ["name", "category"]
+    },
+    "flashcards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "front": {
+            "type": "string",
+            "description": "Conteúdo da frente do cartão (pergunta/prompt)"
+          },
+          "back": {
+            "type": "string",
+            "description": "Conteúdo do verso do cartão (resposta)"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Tags associadas ao cartão"
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": ["Fácil", "Médio", "Difícil"],
+            "description": "Nível de dificuldade inicial do cartão"
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "bloomLevel": {
+                "type": "string",
+                "enum": ["Lembrar", "Entender", "Aplicar", "Analisar", "Avaliar", "Criar"],
+                "description": "Classificação na taxonomia de Bloom"
+              },
+              "source": {
+                "type": "string",
+                "description": "Fonte do conteúdo"
+              },
+              "notes": {
+                "type": "string",
+                "description": "Notas adicionais ou dicas de estudo"
+              }
+            }
+          }
+        },
+        "required": ["front", "back"]
+      }
+    }
+  },
+  "required": ["deck", "flashcards"]
+}

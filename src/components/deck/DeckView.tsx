@@ -25,13 +25,20 @@ export const DeckView = () => {
     );
   }
 
+  // Filtra apenas os cartões que precisam ser revisados hoje
+  const cardsToReview = flashcards.filter(card => {
+    if (!card.nextReview) return true;
+    const now = new Date();
+    return new Date(card.nextReview) <= now;
+  });
+
   return (
     <>
       <div className="text-white">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold">{deck.name}</h1>
-            <p className="text-gray-400 mt-1">{deck.category}</p>
+            <h1 className="text-3xl font-bold">{`${deck.category}: ${deck.name}`}</h1>
+            <p className="text-gray-400 mt-1">{flashcards.length} cartões no total</p>
           </div>
           <div className="flex gap-3">
             {flashcards.length > 0 && (
@@ -40,7 +47,7 @@ export const DeckView = () => {
                 className="flex items-center gap-2 px-4 py-2 bg-[#282828] rounded-full hover:bg-[#383838] transition-colors"
               >
                 <Play className="w-5 h-5" />
-                Estudar
+                Estudar ({cardsToReview.length})
               </button>
             )}
             <button
@@ -60,18 +67,19 @@ export const DeckView = () => {
         ) : (
           <FlashcardList flashcards={flashcards} />
         )}
-
-        <AddFlashcardModal
-          isOpen={isAddModalOpen}
-          onClose={() => setIsAddModalOpen(false)}
-          deckId={deck.id}
-        />
       </div>
+
+      <AddFlashcardModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        deckId={deck.id}
+      />
 
       {isStudyMode && (
         <StudyMode
-          flashcards={flashcards}
           onClose={() => setIsStudyMode(false)}
+          flashcards={cardsToReview}
+          selectedDate={new Date()}
         />
       )}
     </>

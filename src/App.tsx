@@ -5,6 +5,7 @@ import { DeckView } from './components/deck/DeckView';
 import { CalendarView } from './components/CalendarView';
 import { StatisticsView } from './components/stats/StatisticsView';
 import { SettingsView } from './components/settings/SettingsView';
+import { DetailedMonitoring } from './components/pedagogical/DetailedMonitoring';
 import { useStore } from './store/useStore';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
               <Route path="/deck/:deckId" element={<DeckView />} />
               <Route path="/stats" element={<StatisticsView />} />
               <Route path="/settings" element={<SettingsView />} />
+              <Route path="/detailed-pedagogical-monitoring" element={<DetailedMonitoring />} />
             </Routes>
           </main>
         </div>

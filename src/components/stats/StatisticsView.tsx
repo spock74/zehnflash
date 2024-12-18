@@ -14,7 +14,7 @@ import {
   Book
 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
-import { BloomRadarChart } from './BloomRadarChart';
+import BloomRadarChart from './BloomRadarChart';
 
 const StatCard = ({ 
   title, 
@@ -98,14 +98,6 @@ export const StatisticsView = () => {
 
   const studyTimeHours = Math.floor(stats.studyTime / 3600);
   const studyTimeMinutes = Math.floor((stats.studyTime % 3600) / 60);
-
-  // Agrupa cartões por nível de Bloom
-  const bloomLevels = flashcards.reduce((acc, card) => {
-    const level = card.metadata?.bloomLevel || 'Não classificado';
-    if (!acc[level]) acc[level] = [];
-    acc[level].push(card);
-    return acc;
-  }, {} as Record<string, typeof flashcards>);
 
   return (
     <div className="p-6 space-y-6">
@@ -281,56 +273,6 @@ export const StatisticsView = () => {
           </div>
         </motion.div>
       </div>
-
-      {/* Insights */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-[#282828] rounded-xl p-6"
-      >
-        <div className="flex items-center gap-3 mb-6">
-          <Zap className="w-5 h-5 text-[#1DB954]" />
-          <h3 className="text-white font-medium">Insights</h3>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {cardsToReview > 0 && (
-            <div className="bg-[#1e1e1e] rounded-lg p-4 flex items-start gap-3">
-              <Calendar className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
-              <p className="text-white">
-                Você tem <span className="font-bold">{cardsToReview}</span> cartões aguardando revisão.
-              </p>
-            </div>
-          )}
-          
-          {accuracy < 70 && (
-            <div className="bg-[#1e1e1e] rounded-lg p-4 flex items-start gap-3">
-              <Target className="w-5 h-5 text-amber-500 mt-1 flex-shrink-0" />
-              <p className="text-white">
-                Sua taxa de acerto está abaixo de 70%. Considere revisar mais frequentemente.
-              </p>
-            </div>
-          )}
-          
-          {masteredPercentage > 80 && (
-            <div className="bg-[#1e1e1e] rounded-lg p-4 flex items-start gap-3">
-              <CheckCircle2 className="w-5 h-5 text-green-500 mt-1 flex-shrink-0" />
-              <p className="text-white">
-                Parabéns! Você já dominou mais de 80% dos seus cartões.
-              </p>
-            </div>
-          )}
-
-          {Object.keys(bloomLevels).length > 0 && (
-            <div className="bg-[#1e1e1e] rounded-lg p-4 flex items-start gap-3">
-              <BrainCircuit className="w-5 h-5 text-purple-500 mt-1 flex-shrink-0" />
-              <p className="text-white">
-                Você tem cartões em {Object.keys(bloomLevels).length} níveis diferentes da Taxonomia de Bloom.
-              </p>
-            </div>
-          )}
-        </div>
-      </motion.div>
     </div>
   );
 };

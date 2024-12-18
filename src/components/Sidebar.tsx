@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { BookOpen, Layout, BarChart2, Settings, Plus, ChevronDown, ChevronRight } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { AddDeckModal } from './deck/AddDeckModal';
-import { ThemeToggle } from './ui/ThemeToggle';
+import { getCategoryColor } from '../utils/categoryColors';
 
 export const Sidebar = () => {
   const decks = useStore((state) => state.decks);
@@ -49,7 +49,6 @@ export const Sidebar = () => {
             <BookOpen className="w-8 h-8 text-[#1DB954]" />
             <h1 className="text-xl font-bold">FlashMaster</h1>
           </div>
-          <ThemeToggle />
         </div>
 
         <nav className="space-y-2">
@@ -79,7 +78,6 @@ export const Sidebar = () => {
             <div className="space-y-1">
               {Object.entries(decksByCategory).map(([category, categoryDecks]) => (
                 <div key={category} className="space-y-1">
-                  {/* Cabeçalho da categoria */}
                   <button
                     onClick={() => toggleCategory(category)}
                     className="w-full flex items-center justify-between p-2 hover:bg-[#282828] rounded-lg transition-colors"
@@ -90,14 +88,19 @@ export const Sidebar = () => {
                       ) : (
                         <ChevronRight className="w-4 h-4" />
                       )}
-                      <span className="text-sm font-medium">{category}</span>
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="w-2 h-2 rounded-full"
+                          style={{ backgroundColor: getCategoryColor(category) }}
+                        />
+                        <span className="text-sm font-medium">{category}</span>
+                      </div>
                     </div>
                     <span className="text-xs px-2 py-0.5 rounded-full bg-[#383838] text-[#1DB954]">
                       {getCardCountByCategory(category)}
                     </span>
                   </button>
 
-                  {/* Lista de decks da categoria */}
                   {expandedCategories.includes(category) && (
                     <div className="ml-4 space-y-1">
                       {categoryDecks.map((deck) => (
@@ -111,7 +114,7 @@ export const Sidebar = () => {
                           }
                         >
                           <span className="truncate text-sm">
-                            {`${category}: ${deck.name}`}
+                            {deck.name}
                           </span>
                           <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-[#383838] text-gray-400">
                             {getCardCount(deck.id)}

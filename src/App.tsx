@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { DeckView } from './components/deck/DeckView';
 import { CalendarView } from './components/CalendarView';
-import { StatisticsView } from './components/stats/StatisticsView';
+import StatisticsView from './components/stats/StatisticsView';
 import { SettingsView } from './components/settings/SettingsView';
-import { DetailedMonitoring } from './components/pedagogical/DetailedMonitoring';
 import { useStore } from './store/useStore';
 
-function App() {
+// Change to named export
+export function App() {
   const isDarkMode = useStore((state) => state.isDarkMode);
 
   return (
@@ -29,7 +29,6 @@ function App() {
               <Route path="/deck/:deckId" element={<DeckView />} />
               <Route path="/stats" element={<StatisticsView />} />
               <Route path="/settings" element={<SettingsView />} />
-              <Route path="/detailed-pedagogical-monitoring" element={<DetailedMonitoring />} />
             </Routes>
           </main>
         </div>
@@ -37,5 +36,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;

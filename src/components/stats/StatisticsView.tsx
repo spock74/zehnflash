@@ -14,7 +14,7 @@ import {
   Book
 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
-import BloomRadarChart from './BloomRadarChart';
+import BloomComparisonCharts from './BloomComparisonCharts';
 
 const StatCard = ({ 
   title, 
@@ -77,7 +77,7 @@ const StreakGraph = ({ streaks }: { streaks: number[] }) => {
   );
 };
 
-export const StatisticsView = () => {
+function StatisticsView() {
   const { flashcards, stats } = useStore();
 
   // Cálculos estatísticos
@@ -139,64 +139,8 @@ export const StatisticsView = () => {
       </div>
 
       {/* Gráfico Radar de Bloom e Progresso */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-        {/* Gráfico Radar de Bloom */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <BloomRadarChart flashcards={flashcards} />
-        </motion.div>
-
-        {/* Progresso de Aprendizado */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-[#282828] rounded-xl p-6"
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <TrendingUp className="w-5 h-5 text-[#1DB954]" />
-            <h3 className="text-white font-medium">Progresso de Aprendizado</h3>
-          </div>
-          
-          <div className="space-y-6">
-            <div>
-              <div className="flex justify-between mb-2">
-                <span className="text-gray-400">Cartões Dominados</span>
-                <span className="text-white">{masteredCards} de {totalCards}</span>
-              </div>
-              <ProgressBar 
-                value={masteredCards} 
-                max={totalCards} 
-                color="bg-[#1DB954]" 
-              />
-            </div>
-            
-            <div>
-              <div className="flex justify-between mb-2">
-                <span className="text-gray-400">Taxa de Acerto</span>
-                <span className="text-white">{accuracy.toFixed(1)}%</span>
-              </div>
-              <ProgressBar 
-                value={accuracy} 
-                max={100} 
-                color="bg-green-500" 
-              />
-            </div>
-
-            <div>
-              <div className="flex justify-between mb-2">
-                <span className="text-gray-400">Sequência Média</span>
-                <span className="text-white">{averageStreak.toFixed(1)} acertos</span>
-              </div>
-              <ProgressBar 
-                value={averageStreak} 
-                max={10} 
-                color="bg-amber-500" 
-              />
-            </div>
-          </div>
-        </motion.div>
+      <div className="mt-8">
+        <BloomComparisonCharts flashcards={flashcards} />
       </div>
 
       {/* Histórico de Sequências e Detalhes de Estudo */}
@@ -275,4 +219,7 @@ export const StatisticsView = () => {
       </div>
     </div>
   );
-};
+}
+
+// Add default export
+export default StatisticsView;

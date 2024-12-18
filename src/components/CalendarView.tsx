@@ -91,7 +91,7 @@ export const CalendarView: React.FC = () => {
                 if (categories) {
                   return (
                     <div className="category-indicators">
-                      {Object.entries(categories).map(([category, count], index) => (
+                      {Object.entries(categories).map(([category, count]) => (
                         <div
                           key={category}
                           className="category-dot"
@@ -117,67 +117,132 @@ export const CalendarView: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Rest of the component remains the same */}
+      <div className="space-y-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-[#282828] rounded-xl p-6 shadow-lg"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <Clock className="w-5 h-5 text-[#1DB954]" />
+            <h3 className="text-lg font-semibold text-white">Resumo do Dia</h3>
+          </div>
+          
+          {selectedDate ? (
+            <div className="space-y-3">
+              <p className="text-gray-300">
+                {selectedDate.toLocaleDateString('pt-BR', { 
+                  weekday: 'long', 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                })}
+              </p>
+              <div className="flex items-center gap-2 text-white">
+                <span className="text-2xl font-bold">
+                  {reviewsByDateAndCategory[selectedDate.toDateString()] 
+                    ? Object.values(reviewsByDateAndCategory[selectedDate.toDateString()])
+                        .reduce((a, b) => a + b, 0)
+                    : 0}
+                </span>
+                <span className="text-gray-400">cartões para revisar</span>
+              </div>
+            </div>
+          ) : (
+            <p className="text-gray-400">Selecione uma data para ver os detalhes</p>
+          )}
+        </motion.div>
 
-      <style jsx global>{`
-        .react-calendar {
-          background-color: transparent;
-          border: none;
-          font-family: inherit;
-          width: 100%;
-        }
-        .react-calendar__tile {
-          color: white;
-          padding: 1em 0.5em;
-          position: relative;
-          aspect-ratio: 1;
-        }
-        .react-calendar__month-view__days__day {
-          color: #ffffff;
-        }
-        .react-calendar__month-view__days__day--weekend {
-          color: #ff4444;
-        }
-        .react-calendar__month-view__days__day--neighboringMonth {
-          color: #666666;
-        }
-        .react-calendar__navigation button {
-          color: white;
-          min-width: 44px;
-          background: none;
-          font-size: 16px;
-          margin-top: 8px;
-        }
-        .react-calendar__navigation button:enabled:hover,
-        .react-calendar__navigation button:enabled:focus {
-          background-color: #1DB954;
-        }
-        .react-calendar__tile:enabled:hover,
-        .react-calendar__tile:enabled:focus {
-          background-color: #1DB954;
-          color: white;
-        }
-        .react-calendar__tile--now {
-          background: #383838;
-        }
-        .react-calendar__tile--now:enabled:hover,
-        .react-calendar__tile--now:enabled:focus {
-          background: #1DB954;
-        }
-        .has-reviews {
-          background-color: #1e1e1e;
-        }
-        .category-indicators {
-          position: absolute;
-          bottom: 4px;
-          right: 4px;
-          display: flex;
-          gap: 2px;
-          flex-wrap: wrap;
-          max-width: 24px;
-          justify-content: flex-end;
-        }
-      `}</style>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-[#282828] rounded-xl p-6 shadow-lg"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <CheckCircle2 className="w-5 h-5 text-[#1DB954]" />
+            <h3 className="text-lg font-semibold text-white">Estatísticas Gerais</h3>
+          </div>
+          
+          <div className="space-y-4">
+            <div>
+              <p className="text-gray-400 text-sm">Total Revisado</p>
+              <p className="text-2xl font-bold text-white">{stats.cardsReviewed}</p>
+            </div>
+            <div>
+              <p className="text-gray-400 text-sm">Taxa de Acerto</p>
+              <p className="text-2xl font-bold text-[#1DB954]">
+                {stats.cardsReviewed > 0 
+                  ? `${Math.round((stats.correctAnswers / stats.cardsReviewed) * 100)}%`
+                  : '0%'}
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      <style>
+        {`
+          .react-calendar {
+            background-color: transparent;
+            border: none;
+            font-family: inherit;
+            width: 100%;
+          }
+          .react-calendar__tile {
+            color: white;
+            padding: 1em 0.5em;
+            position: relative;
+            aspect-ratio: 1;
+          }
+          .react-calendar__month-view__days__day {
+            color: #ffffff;
+          }
+          .react-calendar__month-view__days__day--weekend {
+            color: #ff4444;
+          }
+          .react-calendar__month-view__days__day--neighboringMonth {
+            color: #666666;
+          }
+          .react-calendar__navigation button {
+            color: white;
+            min-width: 44px;
+            background: none;
+            font-size: 16px;
+            margin-top: 8px;
+          }
+          .react-calendar__navigation button:enabled:hover,
+          .react-calendar__navigation button:enabled:focus {
+            background-color: #1DB954;
+          }
+          .react-calendar__tile:enabled:hover,
+          .react-calendar__tile:enabled:focus {
+            background-color: #1DB954;
+            color: white;
+          }
+          .react-calendar__tile--now {
+            background: #383838;
+          }
+          .react-calendar__tile--now:enabled:hover,
+          .react-calendar__tile--now:enabled:focus {
+            background: #1DB954;
+          }
+          .has-reviews {
+            background-color: #1e1e1e;
+          }
+          .category-indicators {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            display: flex;
+            gap: 2px;
+            flex-wrap: wrap;
+            max-width: 24px;
+            justify-content: flex-end;
+          }
+        `}
+      </style>
     </div>
   );
 };
